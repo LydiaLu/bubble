@@ -57,3 +57,8 @@ func (uc *TodoUsecase) Get(ctx context.Context, id int64) (*Todo, error) {
 	return uc.repo.FindByID(ctx, id)
 
 }
+
+func (uc *TodoUsecase) List(ctx context.Context) ([]*Todo, error) {
+	uc.log.WithContext(ctx).Infof("List")
+	return uc.repo.ListAll(ctx)
+}
