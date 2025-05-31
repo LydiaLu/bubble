@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	pb "bubble/api/bubble/v1"
+	v1 "bubble/api/bubble/v1"
 	"bubble/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -68,7 +69,9 @@ func (s *TodoService) GetTodo(ctx context.Context, req *pb.GetTodoRequest) (*pb.
 	// 2. 调用biz层业务逻辑
 	ret, err := s.uc.Get(ctx, req.Id)
 	if err != nil {
-		return nil, err
+		// return nil, err
+		// 返回自定义错误
+		return nil, v1.ErrorTodoNotFound("id: %v to do is not found", req.Id)
 	}
 	// 3. 按格式返回响应
 	return &pb.GetTodoReply{Todo: &pb.Todo{
