@@ -41,8 +41,16 @@ func (s *TodoService) CreateTodo(ctx context.Context, req *pb.CreateTodoRequest)
 }
 
 func (s *TodoService) UpdateTodo(ctx context.Context, req *pb.UpdateTodoRequest) (*pb.UpdateTodoReply, error) {
-	return &pb.UpdateTodoReply{}, nil
+	// 1. 参数处理
+	// 2. 调用biz层业务逻辑
+	err := s.uc.Update(ctx, &biz.Todo{
+		ID:     req.Id,
+		Title:  req.Title,
+		Status: req.Status,
+	})
+	return &pb.UpdateTodoReply{}, err
 }
+
 func (s *TodoService) DeleteTodo(ctx context.Context, req *pb.DeleteTodoRequest) (*pb.DeleteTodoReply, error) {
 	// 1. 参数处理
 	if req.Id <= 0 {

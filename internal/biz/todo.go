@@ -67,3 +67,11 @@ func (uc *TodoUsecase) Delete(ctx context.Context, id int64) error {
 	uc.log.WithContext(ctx).Infof("Delete: %#v", id)
 	return uc.repo.Delete(ctx, id)
 }
+
+func (uc *TodoUsecase) Update(ctx context.Context, t *Todo) error {
+	uc.log.WithContext(ctx).Infof("Get: %#v", t.ID)
+	uc.log.WithContext(ctx).Infof("Get: %#v", t.Title)
+	uc.log.WithContext(ctx).Infof("Get: %#v", t.Status)
+	return uc.repo.Update(ctx, t)
+
+}
