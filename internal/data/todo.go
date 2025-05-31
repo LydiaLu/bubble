@@ -36,7 +36,8 @@ func (r *todoRepo) Delete(ctx context.Context, id int64) error {
 }
 
 func (r *todoRepo) Update(ctx context.Context, t *biz.Todo) error {
-	return nil
+	err := r.data.db.Model(t).Update("status", t.Status).Error
+	return err
 }
 
 func (r *todoRepo) FindByID(ctx context.Context, id int64) (*biz.Todo, error) {
