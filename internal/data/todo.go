@@ -43,6 +43,8 @@ func (r *todoRepo) FindByID(ctx context.Context, id int64) (*biz.Todo, error) {
 	return &t, err
 }
 
-func (r *todoRepo) ListAll(context.Context) ([]*biz.Todo, error) {
-	return nil, nil
+func (r *todoRepo) ListAll(ctx context.Context) ([]*biz.Todo, error) {
+	var todoList []*biz.Todo
+	err := r.data.db.WithContext(ctx).Find(&todoList).Error
+	return todoList, err
 }

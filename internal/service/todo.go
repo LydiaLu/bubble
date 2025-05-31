@@ -64,5 +64,19 @@ func (s *TodoService) GetTodo(ctx context.Context, req *pb.GetTodoRequest) (*pb.
 	}}, nil
 }
 func (s *TodoService) ListTodo(ctx context.Context, req *pb.ListTodoRequest) (*pb.ListTodoReply, error) {
-	return &pb.ListTodoReply{}, nil
+	// 1. 参数处理 => 没有参数
+	// 2. 调用biz层业务逻辑
+	dataList, err := s.uc.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+	reply := &pb.ListTodoReply{}
+	for _, data := range dataList {
+		reply.Data = append(reply.Data, &pb.Todo{
+			Id:     data.ID,
+			Title:  data.Title,
+			Status: data.Status,
+		})
+	}
+	return reply, nil
 }
