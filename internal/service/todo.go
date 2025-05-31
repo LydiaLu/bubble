@@ -44,7 +44,13 @@ func (s *TodoService) UpdateTodo(ctx context.Context, req *pb.UpdateTodoRequest)
 	return &pb.UpdateTodoReply{}, nil
 }
 func (s *TodoService) DeleteTodo(ctx context.Context, req *pb.DeleteTodoRequest) (*pb.DeleteTodoReply, error) {
-	return &pb.DeleteTodoReply{}, nil
+	// 1. 参数处理
+	if req.Id <= 0 {
+		return &pb.DeleteTodoReply{}, errors.New("无效的id")
+	}
+	// 2. 调用biz层业务逻辑
+	err := s.uc.Delete(ctx, req.Id)
+	return &pb.DeleteTodoReply{}, err
 }
 func (s *TodoService) GetTodo(ctx context.Context, req *pb.GetTodoRequest) (*pb.GetTodoReply, error) {
 	// 1. 参数处理

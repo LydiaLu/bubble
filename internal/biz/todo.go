@@ -53,7 +53,7 @@ func (uc *TodoUsecase) Create(ctx context.Context, t *Todo) (*Todo, error) {
 }
 
 func (uc *TodoUsecase) Get(ctx context.Context, id int64) (*Todo, error) {
-	uc.log.WithContext(ctx).Infof("Create: %#v", id)
+	uc.log.WithContext(ctx).Infof("Get: %#v", id)
 	return uc.repo.FindByID(ctx, id)
 
 }
@@ -61,4 +61,9 @@ func (uc *TodoUsecase) Get(ctx context.Context, id int64) (*Todo, error) {
 func (uc *TodoUsecase) List(ctx context.Context) ([]*Todo, error) {
 	uc.log.WithContext(ctx).Infof("List")
 	return uc.repo.ListAll(ctx)
+}
+
+func (uc *TodoUsecase) Delete(ctx context.Context, id int64) error {
+	uc.log.WithContext(ctx).Infof("Delete: %#v", id)
+	return uc.repo.Delete(ctx, id)
 }
