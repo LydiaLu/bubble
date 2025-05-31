@@ -23,15 +23,16 @@ func NewTodoService(uc *biz.TodoUsecase) *TodoService {
 
 func (s *TodoService) CreateTodo(ctx context.Context, req *pb.CreateTodoRequest) (*pb.CreateTodoReply, error) {
 	// 请求来了
+	// 1. 请求参数的校验
 	if len(req.GetTitle()) == 0 {
 		return &pb.CreateTodoReply{}, errors.New("无效的title")
 	}
-	// 调用业务逻辑
+	// 2. 调用业务逻辑
 	data, err := s.uc.Create(ctx, &biz.Todo{Title: req.Title})
 	if err != nil {
 		return nil, err
 	}
-	// 返回响应
+	// 3. 返回响应
 	return &pb.CreateTodoReply{
 		Id:     data.ID,
 		Title:  data.Title,
@@ -46,7 +47,21 @@ func (s *TodoService) DeleteTodo(ctx context.Context, req *pb.DeleteTodoRequest)
 	return &pb.DeleteTodoReply{}, nil
 }
 func (s *TodoService) GetTodo(ctx context.Context, req *pb.GetTodoRequest) (*pb.GetTodoReply, error) {
-	return &pb.GetTodoReply{}, nil
+	// 1. 参数处理
+	if req.Id <= 0 {
+		return &pb.GetTodoReply{}, errors.New("无效的id")
+	}
+	// 2. 调用biz层业务逻辑
+	ret, err := s.uc.Get(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+	// 3. 按格式返回响应
+	return &pb.GetTodoReply{Todo: &pb.Todo{
+		Id:     ret.ID,
+		Title:  ret.Title,
+		Status: ret.Status,
+	}}, nil
 }
 func (s *TodoService) ListTodo(ctx context.Context, req *pb.ListTodoRequest) (*pb.ListTodoReply, error) {
 	return &pb.ListTodoReply{}, nil

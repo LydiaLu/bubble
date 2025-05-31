@@ -46,7 +46,14 @@ func NewTodoUsecase(repo TodoRepo, logger log.Logger) *TodoUsecase {
 
 // CreateGreeter creates a Greeter, and returns the new Greeter.
 // 具体的业务操作
+// 对外提供的业务函数，实现复杂的业务逻辑
 func (uc *TodoUsecase) Create(ctx context.Context, t *Todo) (*Todo, error) {
 	uc.log.WithContext(ctx).Infof("Create: %#v", t)
 	return uc.repo.Save(ctx, t)
+}
+
+func (uc *TodoUsecase) Get(ctx context.Context, id int64) (*Todo, error) {
+	uc.log.WithContext(ctx).Infof("Create: %#v", id)
+	return uc.repo.FindByID(ctx, id)
+
 }
