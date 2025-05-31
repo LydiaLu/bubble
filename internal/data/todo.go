@@ -29,8 +29,10 @@ func (r *todoRepo) Save(ctx context.Context, t *biz.Todo) (*biz.Todo, error) {
 	return t, err
 }
 
-func (r *todoRepo) Delete(context.Context, int64) error {
-	return nil
+func (r *todoRepo) Delete(ctx context.Context, id int64) error {
+	t := biz.Todo{ID: id}
+	err := r.data.db.Delete(&t).Error
+	return err
 }
 
 func (r *todoRepo) Update(ctx context.Context, t *biz.Todo) error {
