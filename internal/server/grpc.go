@@ -2,6 +2,7 @@ package server
 
 import (
 	v1 "bubble/api/bubble/v1"
+	v2 "bubble/api/healthcheck/v1"
 	"bubble/internal/conf"
 	"bubble/internal/service"
 
@@ -12,7 +13,7 @@ import (
 )
 
 // NewGRPCServer new a gRPC server.
-func NewGRPCServer(c *conf.Server, todo *service.TodoService, logger log.Logger) *grpc.Server {
+func NewGRPCServer(c *conf.Server, todo *service.TodoService, healthcheck *service.HealthCheckService, logger log.Logger) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),
@@ -30,5 +31,6 @@ func NewGRPCServer(c *conf.Server, todo *service.TodoService, logger log.Logger)
 	}
 	srv := grpc.NewServer(opts...)
 	v1.RegisterTodoServer(srv, todo)
+	v2.RegisterHealthCheckServiceServer(srv, healthcheck)
 	return srv
 }

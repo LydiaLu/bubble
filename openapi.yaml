@@ -6,6 +6,18 @@ info:
     title: ""
     version: 0.0.1
 paths:
+    /healthcheck:
+        get:
+            tags:
+                - HealthCheckService
+            operationId: HealthCheckService_HealthCheck
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/healthcheck.v1.HealthCheckResponse'
     /helloworld/{name}:
         get:
             tags:
@@ -165,6 +177,12 @@ components:
                     type: string
                 status:
                     type: boolean
+        healthcheck.v1.HealthCheckResponse:
+            type: object
+            properties:
+                status:
+                    type: integer
+                    format: enum
         helloworld.v1.HelloReply:
             type: object
             properties:
@@ -174,4 +192,5 @@ components:
 tags:
     - name: Greeter
       description: The greeting service definition.
+    - name: HealthCheckService
     - name: Todo
