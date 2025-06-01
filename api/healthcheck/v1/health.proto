@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package healthcheck.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "api/healthcheck/v1;v1";
+
+
+service HealthCheckService {
+  rpc HealthCheck(google.protobuf.Empty) returns (HealthCheckResponse) {
+    option (google.api.http) = {
+      get: "/healthcheck"
+    };
+  }
+}
+
+message HealthCheckResponse{
+    enum ServiceStatus {
+        UNKNOWN = 0;
+        SERVING = 1;
+        NOT_SERVING = 2;
+        SERVICE_UNKNOWN = 3;
+    }
+    ServiceStatus status = 1;
+}
