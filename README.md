@@ -1,7 +1,8 @@
 # Kratos Project Template
 
-You are good man!!!!
-You are fine.
+Hello World!
+Hello World!
+Hello World!
 ## Install Kratos
 ```
 go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
