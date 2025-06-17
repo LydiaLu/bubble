@@ -1,7 +1,5 @@
 # Kratos Project Template
 
-sdfsdfhjdsfhdsjkfhsdjkfhdjksfhjskdhfjkdshfjkdshfkjsdhfkjdshfjksdhfjkdshfjkds
-sdfhdsjfhdsjfhdjshfjsdhjfhjsd
 ## Install Kratos
 ```
 go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
