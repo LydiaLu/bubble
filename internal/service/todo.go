@@ -3,12 +3,14 @@ package service
 import (
 	"context"
 	"errors"
+	"time"
 
 	pb "bubble/api/bubble/v1"
 	v1 "bubble/api/bubble/v1"
 	"bubble/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/google/uuid"
 )
 
 type TodoService struct {
@@ -16,10 +18,12 @@ type TodoService struct {
 	// 每个UseCase代表一个完整的业务功能
 	uc  *biz.TodoUsecase
 	log *log.Helper
+	// 存储评估结果的map
+	evaluationResults map[uuid.UUID]bool
 }
 
 func NewTodoService(uc *biz.TodoUsecase) *TodoService {
-	return &TodoService{uc: uc}
+	return &TodoService{uc: uc, evaluationResults: make(map[uuid.UUID]bool)}
 }
 
 func (s *TodoService) CreateTodo(ctx context.Context, req *pb.CreateTodoRequest) (*pb.CreateTodoReply, error) {
@@ -96,4 +100,47 @@ func (s *TodoService) ListTodo(ctx context.Context, req *pb.ListTodoRequest) (*p
 		})
 	}
 	return reply, nil
+}
+
+// EvaluateTodo 实现评估待办事项的接口
+func (s *TodoService) EvaluateTodo(ctx context.Context, req *pb.EvaluateTodoRequest) (*pb.EvaluateTodoReply, error) {
+	evaluation_id := uuid.New()
+	go s.performEvaluation(evaluation_id)
+
+	return &pb.EvaluateTodoReply{
+		EvaluationId: evaluation_id.String(),
+	}, nil
+}
+
+// 执行耗时的评估操作
+func (s *TodoService) performEvaluation(id uuid.UUID) {
+	// 模拟耗时操作
+	time.Sleep(20 * time.Second)
+
+	s.evaluationResults[id] = true
+}
+
+func (s *TodoService) GetEvaluationStatus(ctx context.Context, req *pb.GetEvaluationStatusRequest) (*pb.GetEvaluateStatusdoReply, error) {
+
+	evaluation_id, _ := uuid.Parse(req.EvaluationId)
+	completed, exists := s.evaluationResults[evaluation_id]
+
+	if !exists {
+		return &pb.GetEvaluateStatusdoReply{
+			Message:   "未找到评估任务",
+			Completed: false,
+		}, nil
+	}
+
+	if completed {
+		return &pb.GetEvaluateStatusdoReply{
+			Message:   "评估完成",
+			Completed: true,
+		}, nil
+	}
+
+	return &pb.GetEvaluateStatusdoReply{
+		Message:   "正在评估中",
+		Completed: false,
+	}, nil
 }

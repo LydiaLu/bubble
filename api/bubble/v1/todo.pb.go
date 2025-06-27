@@ -487,6 +487,146 @@ func (*ListTodoRequest) Descriptor() ([]byte, []int) {
 	return file_bubble_v1_todo_proto_rawDescGZIP(), []int{9}
 }
 
+type EvaluateTodoRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EvaluateTodoRequest) Reset() {
+	*x = EvaluateTodoRequest{}
+	mi := &file_bubble_v1_todo_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EvaluateTodoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EvaluateTodoRequest) ProtoMessage() {}
+
+func (x *EvaluateTodoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_bubble_v1_todo_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EvaluateTodoRequest.ProtoReflect.Descriptor instead.
+func (*EvaluateTodoRequest) Descriptor() ([]byte, []int) {
+	return file_bubble_v1_todo_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *EvaluateTodoRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type EvaluateTodoReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EvaluationId  string                 `protobuf:"bytes,1,opt,name=evaluation_id,json=evaluationId,proto3" json:"evaluation_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EvaluateTodoReply) Reset() {
+	*x = EvaluateTodoReply{}
+	mi := &file_bubble_v1_todo_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EvaluateTodoReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EvaluateTodoReply) ProtoMessage() {}
+
+func (x *EvaluateTodoReply) ProtoReflect() protoreflect.Message {
+	mi := &file_bubble_v1_todo_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EvaluateTodoReply.ProtoReflect.Descriptor instead.
+func (*EvaluateTodoReply) Descriptor() ([]byte, []int) {
+	return file_bubble_v1_todo_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *EvaluateTodoReply) GetEvaluationId() string {
+	if x != nil {
+		return x.EvaluationId
+	}
+	return ""
+}
+
+type GetEvaluateStatusdoReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Completed     bool                   `protobuf:"varint,2,opt,name=completed,proto3" json:"completed,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetEvaluateStatusdoReply) Reset() {
+	*x = GetEvaluateStatusdoReply{}
+	mi := &file_bubble_v1_todo_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetEvaluateStatusdoReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetEvaluateStatusdoReply) ProtoMessage() {}
+
+func (x *GetEvaluateStatusdoReply) ProtoReflect() protoreflect.Message {
+	mi := &file_bubble_v1_todo_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetEvaluateStatusdoReply.ProtoReflect.Descriptor instead.
+func (*GetEvaluateStatusdoReply) Descriptor() ([]byte, []int) {
+	return file_bubble_v1_todo_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetEvaluateStatusdoReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *GetEvaluateStatusdoReply) GetCompleted() bool {
+	if x != nil {
+		return x.Completed
+	}
+	return false
+}
+
 type ListTodoReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Data          []*Todo                `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
@@ -496,7 +636,7 @@ type ListTodoReply struct {
 
 func (x *ListTodoReply) Reset() {
 	*x = ListTodoReply{}
-	mi := &file_bubble_v1_todo_proto_msgTypes[10]
+	mi := &file_bubble_v1_todo_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -508,7 +648,7 @@ func (x *ListTodoReply) String() string {
 func (*ListTodoReply) ProtoMessage() {}
 
 func (x *ListTodoReply) ProtoReflect() protoreflect.Message {
-	mi := &file_bubble_v1_todo_proto_msgTypes[10]
+	mi := &file_bubble_v1_todo_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -521,7 +661,7 @@ func (x *ListTodoReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTodoReply.ProtoReflect.Descriptor instead.
 func (*ListTodoReply) Descriptor() ([]byte, []int) {
-	return file_bubble_v1_todo_proto_rawDescGZIP(), []int{10}
+	return file_bubble_v1_todo_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ListTodoReply) GetData() []*Todo {
@@ -529,6 +669,50 @@ func (x *ListTodoReply) GetData() []*Todo {
 		return x.Data
 	}
 	return nil
+}
+
+type GetEvaluationStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EvaluationId  string                 `protobuf:"bytes,1,opt,name=evaluation_id,json=evaluationId,proto3" json:"evaluation_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetEvaluationStatusRequest) Reset() {
+	*x = GetEvaluationStatusRequest{}
+	mi := &file_bubble_v1_todo_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetEvaluationStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetEvaluationStatusRequest) ProtoMessage() {}
+
+func (x *GetEvaluationStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_bubble_v1_todo_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetEvaluationStatusRequest.ProtoReflect.Descriptor instead.
+func (*GetEvaluationStatusRequest) Descriptor() ([]byte, []int) {
+	return file_bubble_v1_todo_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetEvaluationStatusRequest) GetEvaluationId() string {
+	if x != nil {
+		return x.EvaluationId
+	}
+	return ""
 }
 
 var File_bubble_v1_todo_proto protoreflect.FileDescriptor
@@ -558,9 +742,18 @@ const file_bubble_v1_todo_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\"7\n" +
 	"\fGetTodoReply\x12'\n" +
 	"\x04todo\x18\x01 \x01(\v2\x13.api.bubble.v1.todoR\x04todo\"\x11\n" +
-	"\x0fListTodoRequest\"8\n" +
+	"\x0fListTodoRequest\".\n" +
+	"\x13EvaluateTodoRequest\x12\x17\n" +
+	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\"8\n" +
+	"\x11EvaluateTodoReply\x12#\n" +
+	"\revaluation_id\x18\x01 \x01(\tR\fevaluationId\"R\n" +
+	"\x18GetEvaluateStatusdoReply\x12\x18\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\x12\x1c\n" +
+	"\tcompleted\x18\x02 \x01(\bR\tcompleted\"8\n" +
 	"\rListTodoReply\x12'\n" +
-	"\x04data\x18\x01 \x03(\v2\x13.api.bubble.v1.todoR\x04data2\xf7\x03\n" +
+	"\x04data\x18\x01 \x03(\v2\x13.api.bubble.v1.todoR\x04data\"J\n" +
+	"\x1aGetEvaluationStatusRequest\x12,\n" +
+	"\revaluation_id\x18\x01 \x01(\tB\a\xfaB\x04\"\x02 \x00R\fevaluationId2\x90\x06\n" +
 	"\x04Todo\x12c\n" +
 	"\n" +
 	"CreateTodo\x12 .api.bubble.v1.CreateTodoRequest\x1a\x1e.api.bubble.v1.CreateTodoReply\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/v1/todo\x12h\n" +
@@ -569,7 +762,9 @@ const file_bubble_v1_todo_proto_rawDesc = "" +
 	"\n" +
 	"DeleteTodo\x12 .api.bubble.v1.DeleteTodoRequest\x1a\x1e.api.bubble.v1.DeleteTodoReply\"\x15\x82\xd3\xe4\x93\x02\x0f*\r/v1/todo/{id}\x12\\\n" +
 	"\aGetTodo\x12\x1d.api.bubble.v1.GetTodoRequest\x1a\x1b.api.bubble.v1.GetTodoReply\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/todo/{id}\x12[\n" +
-	"\bListTodo\x12\x1e.api.bubble.v1.ListTodoRequest\x1a\x1c.api.bubble.v1.ListTodoReply\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/v1/todosB*\n" +
+	"\bListTodo\x12\x1e.api.bubble.v1.ListTodoRequest\x1a\x1c.api.bubble.v1.ListTodoReply\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/v1/todos\x12w\n" +
+	"\fEvaluateTodo\x12\".api.bubble.v1.EvaluateTodoRequest\x1a .api.bubble.v1.EvaluateTodoReply\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/v1/todo/{id}/evaluate\x12\x9d\x01\n" +
+	"\x13GetEvaluationStatus\x12).api.bubble.v1.GetEvaluationStatusRequest\x1a'.api.bubble.v1.GetEvaluateStatusdoReply\"2\x82\xd3\xe4\x93\x02,\x12*/v1/todo/{evaluation_id}/evaluation-statusB*\n" +
 	"\rapi.bubble.v1P\x01Z\x17bubble/api/bubble/v1;v1b\x06proto3"
 
 var (
@@ -584,19 +779,23 @@ func file_bubble_v1_todo_proto_rawDescGZIP() []byte {
 	return file_bubble_v1_todo_proto_rawDescData
 }
 
-var file_bubble_v1_todo_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_bubble_v1_todo_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_bubble_v1_todo_proto_goTypes = []any{
-	(*Todo)(nil),              // 0: api.bubble.v1.todo
-	(*CreateTodoRequest)(nil), // 1: api.bubble.v1.CreateTodoRequest
-	(*CreateTodoReply)(nil),   // 2: api.bubble.v1.CreateTodoReply
-	(*UpdateTodoRequest)(nil), // 3: api.bubble.v1.UpdateTodoRequest
-	(*UpdateTodoReply)(nil),   // 4: api.bubble.v1.UpdateTodoReply
-	(*DeleteTodoRequest)(nil), // 5: api.bubble.v1.DeleteTodoRequest
-	(*DeleteTodoReply)(nil),   // 6: api.bubble.v1.DeleteTodoReply
-	(*GetTodoRequest)(nil),    // 7: api.bubble.v1.GetTodoRequest
-	(*GetTodoReply)(nil),      // 8: api.bubble.v1.GetTodoReply
-	(*ListTodoRequest)(nil),   // 9: api.bubble.v1.ListTodoRequest
-	(*ListTodoReply)(nil),     // 10: api.bubble.v1.ListTodoReply
+	(*Todo)(nil),                       // 0: api.bubble.v1.todo
+	(*CreateTodoRequest)(nil),          // 1: api.bubble.v1.CreateTodoRequest
+	(*CreateTodoReply)(nil),            // 2: api.bubble.v1.CreateTodoReply
+	(*UpdateTodoRequest)(nil),          // 3: api.bubble.v1.UpdateTodoRequest
+	(*UpdateTodoReply)(nil),            // 4: api.bubble.v1.UpdateTodoReply
+	(*DeleteTodoRequest)(nil),          // 5: api.bubble.v1.DeleteTodoRequest
+	(*DeleteTodoReply)(nil),            // 6: api.bubble.v1.DeleteTodoReply
+	(*GetTodoRequest)(nil),             // 7: api.bubble.v1.GetTodoRequest
+	(*GetTodoReply)(nil),               // 8: api.bubble.v1.GetTodoReply
+	(*ListTodoRequest)(nil),            // 9: api.bubble.v1.ListTodoRequest
+	(*EvaluateTodoRequest)(nil),        // 10: api.bubble.v1.EvaluateTodoRequest
+	(*EvaluateTodoReply)(nil),          // 11: api.bubble.v1.EvaluateTodoReply
+	(*GetEvaluateStatusdoReply)(nil),   // 12: api.bubble.v1.GetEvaluateStatusdoReply
+	(*ListTodoReply)(nil),              // 13: api.bubble.v1.ListTodoReply
+	(*GetEvaluationStatusRequest)(nil), // 14: api.bubble.v1.GetEvaluationStatusRequest
 }
 var file_bubble_v1_todo_proto_depIdxs = []int32{
 	0,  // 0: api.bubble.v1.GetTodoReply.todo:type_name -> api.bubble.v1.todo
@@ -606,13 +805,17 @@ var file_bubble_v1_todo_proto_depIdxs = []int32{
 	5,  // 4: api.bubble.v1.Todo.DeleteTodo:input_type -> api.bubble.v1.DeleteTodoRequest
 	7,  // 5: api.bubble.v1.Todo.GetTodo:input_type -> api.bubble.v1.GetTodoRequest
 	9,  // 6: api.bubble.v1.Todo.ListTodo:input_type -> api.bubble.v1.ListTodoRequest
-	2,  // 7: api.bubble.v1.Todo.CreateTodo:output_type -> api.bubble.v1.CreateTodoReply
-	4,  // 8: api.bubble.v1.Todo.UpdateTodo:output_type -> api.bubble.v1.UpdateTodoReply
-	6,  // 9: api.bubble.v1.Todo.DeleteTodo:output_type -> api.bubble.v1.DeleteTodoReply
-	8,  // 10: api.bubble.v1.Todo.GetTodo:output_type -> api.bubble.v1.GetTodoReply
-	10, // 11: api.bubble.v1.Todo.ListTodo:output_type -> api.bubble.v1.ListTodoReply
-	7,  // [7:12] is the sub-list for method output_type
-	2,  // [2:7] is the sub-list for method input_type
+	10, // 7: api.bubble.v1.Todo.EvaluateTodo:input_type -> api.bubble.v1.EvaluateTodoRequest
+	14, // 8: api.bubble.v1.Todo.GetEvaluationStatus:input_type -> api.bubble.v1.GetEvaluationStatusRequest
+	2,  // 9: api.bubble.v1.Todo.CreateTodo:output_type -> api.bubble.v1.CreateTodoReply
+	4,  // 10: api.bubble.v1.Todo.UpdateTodo:output_type -> api.bubble.v1.UpdateTodoReply
+	6,  // 11: api.bubble.v1.Todo.DeleteTodo:output_type -> api.bubble.v1.DeleteTodoReply
+	8,  // 12: api.bubble.v1.Todo.GetTodo:output_type -> api.bubble.v1.GetTodoReply
+	13, // 13: api.bubble.v1.Todo.ListTodo:output_type -> api.bubble.v1.ListTodoReply
+	11, // 14: api.bubble.v1.Todo.EvaluateTodo:output_type -> api.bubble.v1.EvaluateTodoReply
+	12, // 15: api.bubble.v1.Todo.GetEvaluationStatus:output_type -> api.bubble.v1.GetEvaluateStatusdoReply
+	9,  // [9:16] is the sub-list for method output_type
+	2,  // [2:9] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
 	2,  // [2:2] is the sub-list for extension extendee
 	0,  // [0:2] is the sub-list for field type_name
@@ -629,7 +832,7 @@ func file_bubble_v1_todo_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_bubble_v1_todo_proto_rawDesc), len(file_bubble_v1_todo_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

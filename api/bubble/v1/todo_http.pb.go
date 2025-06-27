@@ -21,6 +21,8 @@ const _ = http.SupportPackageIsVersion1
 
 const OperationTodoCreateTodo = "/api.bubble.v1.Todo/CreateTodo"
 const OperationTodoDeleteTodo = "/api.bubble.v1.Todo/DeleteTodo"
+const OperationTodoEvaluateTodo = "/api.bubble.v1.Todo/EvaluateTodo"
+const OperationTodoGetEvaluationStatus = "/api.bubble.v1.Todo/GetEvaluationStatus"
 const OperationTodoGetTodo = "/api.bubble.v1.Todo/GetTodo"
 const OperationTodoListTodo = "/api.bubble.v1.Todo/ListTodo"
 const OperationTodoUpdateTodo = "/api.bubble.v1.Todo/UpdateTodo"
@@ -28,6 +30,8 @@ const OperationTodoUpdateTodo = "/api.bubble.v1.Todo/UpdateTodo"
 type TodoHTTPServer interface {
 	CreateTodo(context.Context, *CreateTodoRequest) (*CreateTodoReply, error)
 	DeleteTodo(context.Context, *DeleteTodoRequest) (*DeleteTodoReply, error)
+	EvaluateTodo(context.Context, *EvaluateTodoRequest) (*EvaluateTodoReply, error)
+	GetEvaluationStatus(context.Context, *GetEvaluationStatusRequest) (*GetEvaluateStatusdoReply, error)
 	GetTodo(context.Context, *GetTodoRequest) (*GetTodoReply, error)
 	ListTodo(context.Context, *ListTodoRequest) (*ListTodoReply, error)
 	UpdateTodo(context.Context, *UpdateTodoRequest) (*UpdateTodoReply, error)
@@ -40,6 +44,8 @@ func RegisterTodoHTTPServer(s *http.Server, srv TodoHTTPServer) {
 	r.DELETE("/v1/todo/{id}", _Todo_DeleteTodo0_HTTP_Handler(srv))
 	r.GET("/v1/todo/{id}", _Todo_GetTodo0_HTTP_Handler(srv))
 	r.GET("/v1/todos", _Todo_ListTodo0_HTTP_Handler(srv))
+	r.POST("/v1/todo/{id}/evaluate", _Todo_EvaluateTodo0_HTTP_Handler(srv))
+	r.GET("/v1/todo/{evaluation_id}/evaluation-status", _Todo_GetEvaluationStatus0_HTTP_Handler(srv))
 }
 
 func _Todo_CreateTodo0_HTTP_Handler(srv TodoHTTPServer) func(ctx http.Context) error {
@@ -152,9 +158,58 @@ func _Todo_ListTodo0_HTTP_Handler(srv TodoHTTPServer) func(ctx http.Context) err
 	}
 }
 
+func _Todo_EvaluateTodo0_HTTP_Handler(srv TodoHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in EvaluateTodoRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTodoEvaluateTodo)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.EvaluateTodo(ctx, req.(*EvaluateTodoRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*EvaluateTodoReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Todo_GetEvaluationStatus0_HTTP_Handler(srv TodoHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetEvaluationStatusRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTodoGetEvaluationStatus)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetEvaluationStatus(ctx, req.(*GetEvaluationStatusRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetEvaluateStatusdoReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type TodoHTTPClient interface {
 	CreateTodo(ctx context.Context, req *CreateTodoRequest, opts ...http.CallOption) (rsp *CreateTodoReply, err error)
 	DeleteTodo(ctx context.Context, req *DeleteTodoRequest, opts ...http.CallOption) (rsp *DeleteTodoReply, err error)
+	EvaluateTodo(ctx context.Context, req *EvaluateTodoRequest, opts ...http.CallOption) (rsp *EvaluateTodoReply, err error)
+	GetEvaluationStatus(ctx context.Context, req *GetEvaluationStatusRequest, opts ...http.CallOption) (rsp *GetEvaluateStatusdoReply, err error)
 	GetTodo(ctx context.Context, req *GetTodoRequest, opts ...http.CallOption) (rsp *GetTodoReply, err error)
 	ListTodo(ctx context.Context, req *ListTodoRequest, opts ...http.CallOption) (rsp *ListTodoReply, err error)
 	UpdateTodo(ctx context.Context, req *UpdateTodoRequest, opts ...http.CallOption) (rsp *UpdateTodoReply, err error)
@@ -188,6 +243,32 @@ func (c *TodoHTTPClientImpl) DeleteTodo(ctx context.Context, in *DeleteTodoReque
 	opts = append(opts, http.Operation(OperationTodoDeleteTodo))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TodoHTTPClientImpl) EvaluateTodo(ctx context.Context, in *EvaluateTodoRequest, opts ...http.CallOption) (*EvaluateTodoReply, error) {
+	var out EvaluateTodoReply
+	pattern := "/v1/todo/{id}/evaluate"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTodoEvaluateTodo))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TodoHTTPClientImpl) GetEvaluationStatus(ctx context.Context, in *GetEvaluationStatusRequest, opts ...http.CallOption) (*GetEvaluateStatusdoReply, error) {
+	var out GetEvaluateStatusdoReply
+	pattern := "/v1/todo/{evaluation_id}/evaluation-status"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTodoGetEvaluationStatus))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

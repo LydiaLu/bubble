@@ -55,6 +55,24 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.bubble.v1.CreateTodoReply'
+    /v1/todo/{evaluationId}/evaluation-status:
+        get:
+            tags:
+                - Todo
+            operationId: Todo_GetEvaluationStatus
+            parameters:
+                - name: evaluationId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.bubble.v1.GetEvaluateStatusdoReply'
     /v1/todo/{id}:
         get:
             tags:
@@ -113,6 +131,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.bubble.v1.DeleteTodoReply'
+    /v1/todo/{id}/evaluate:
+        post:
+            tags:
+                - Todo
+            operationId: Todo_EvaluateTodo
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.bubble.v1.EvaluateTodoRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.bubble.v1.EvaluateTodoReply'
     /v1/todos:
         get:
             tags:
@@ -144,6 +186,23 @@ components:
         api.bubble.v1.DeleteTodoReply:
             type: object
             properties: {}
+        api.bubble.v1.EvaluateTodoReply:
+            type: object
+            properties:
+                evaluationId:
+                    type: string
+        api.bubble.v1.EvaluateTodoRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+        api.bubble.v1.GetEvaluateStatusdoReply:
+            type: object
+            properties:
+                message:
+                    type: string
+                completed:
+                    type: boolean
         api.bubble.v1.GetTodoReply:
             type: object
             properties:

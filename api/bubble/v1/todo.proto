@@ -10,31 +10,42 @@ option java_multiple_files = true;
 option java_package = "api.bubble.v1";
 
 service Todo {
-	rpc CreateTodo (CreateTodoRequest) returns (CreateTodoReply){
+	 rpc CreateTodo (CreateTodoRequest) returns (CreateTodoReply){
+		 option (google.api.http) = {
+			 post: "/v1/todo",
+			 body: "*"
+		 };
+	 };
+	 rpc UpdateTodo (UpdateTodoRequest) returns (UpdateTodoReply){
+		 option (google.api.http) = {
+			 put: "/v1/todo/{id}",
+			 body: "*"
+		 };
+	 };
+	 rpc DeleteTodo (DeleteTodoRequest) returns (DeleteTodoReply){
+		 option (google.api.http) = {
+			 delete: "/v1/todo/{id}",
+		 };
+	 };
+	 rpc GetTodo (GetTodoRequest) returns (GetTodoReply){
+		 option (google.api.http) = {
+			 get: "/v1/todo/{id}",
+		 };
+	 };
+	 rpc ListTodo (ListTodoRequest) returns (ListTodoReply){
+		 option (google.api.http) = {
+			 get: "/v1/todos",
+		 };
+	 };
+	 rpc EvaluateTodo (EvaluateTodoRequest) returns (EvaluateTodoReply){
+		 option (google.api.http) = {
+			 post: "/v1/todo/{id}/evaluate",
+			 body: "*"
+		 };
+	 };
+	rpc GetEvaluationStatus (GetEvaluationStatusRequest) returns (GetEvaluateStatusdoReply) {
 		option (google.api.http) = {
-			post: "/v1/todo",
-			body: "*"
-		};
-	};
-	rpc UpdateTodo (UpdateTodoRequest) returns (UpdateTodoReply){
-		option (google.api.http) = {
-			put: "/v1/todo/{id}",
-			body: "*"
-		};
-	};
-	rpc DeleteTodo (DeleteTodoRequest) returns (DeleteTodoReply){
-		option (google.api.http) = {
-			delete: "/v1/todo/{id}",
-		};
-	};
-	rpc GetTodo (GetTodoRequest) returns (GetTodoReply){
-		option (google.api.http) = {
-			get: "/v1/todo/{id}",
-		};
-	};
-	rpc ListTodo (ListTodoRequest) returns (ListTodoReply){
-		option (google.api.http) = {
-			get: "/v1/todos",
+			get: "/v1/todo/{evaluation_id}/evaluation-status"
 		};
 	};
 }
@@ -75,6 +86,22 @@ message GetTodoReply {
 
 message ListTodoRequest {
 }
+message EvaluateTodoRequest {
+	 int64 id = 1 [(validate.rules).int64 = {gt: 0}];
+}
+
+message EvaluateTodoReply {
+	 string evaluation_id = 1;
+}
+
+message GetEvaluateStatusdoReply {
+	 string message = 1;
+	 bool completed = 2;
+}
 message ListTodoReply {
-	repeated todo data = 1;
+	 repeated todo data = 1;
+}
+
+message GetEvaluationStatusRequest {
+    string evaluation_id = 1 [(validate.rules).int64 = {gt: 0}];
 }

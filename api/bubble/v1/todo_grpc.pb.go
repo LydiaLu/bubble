@@ -19,11 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Todo_CreateTodo_FullMethodName = "/api.bubble.v1.Todo/CreateTodo"
-	Todo_UpdateTodo_FullMethodName = "/api.bubble.v1.Todo/UpdateTodo"
-	Todo_DeleteTodo_FullMethodName = "/api.bubble.v1.Todo/DeleteTodo"
-	Todo_GetTodo_FullMethodName    = "/api.bubble.v1.Todo/GetTodo"
-	Todo_ListTodo_FullMethodName   = "/api.bubble.v1.Todo/ListTodo"
+	Todo_CreateTodo_FullMethodName          = "/api.bubble.v1.Todo/CreateTodo"
+	Todo_UpdateTodo_FullMethodName          = "/api.bubble.v1.Todo/UpdateTodo"
+	Todo_DeleteTodo_FullMethodName          = "/api.bubble.v1.Todo/DeleteTodo"
+	Todo_GetTodo_FullMethodName             = "/api.bubble.v1.Todo/GetTodo"
+	Todo_ListTodo_FullMethodName            = "/api.bubble.v1.Todo/ListTodo"
+	Todo_EvaluateTodo_FullMethodName        = "/api.bubble.v1.Todo/EvaluateTodo"
+	Todo_GetEvaluationStatus_FullMethodName = "/api.bubble.v1.Todo/GetEvaluationStatus"
 )
 
 // TodoClient is the client API for Todo service.
@@ -35,6 +37,8 @@ type TodoClient interface {
 	DeleteTodo(ctx context.Context, in *DeleteTodoRequest, opts ...grpc.CallOption) (*DeleteTodoReply, error)
 	GetTodo(ctx context.Context, in *GetTodoRequest, opts ...grpc.CallOption) (*GetTodoReply, error)
 	ListTodo(ctx context.Context, in *ListTodoRequest, opts ...grpc.CallOption) (*ListTodoReply, error)
+	EvaluateTodo(ctx context.Context, in *EvaluateTodoRequest, opts ...grpc.CallOption) (*EvaluateTodoReply, error)
+	GetEvaluationStatus(ctx context.Context, in *GetEvaluationStatusRequest, opts ...grpc.CallOption) (*GetEvaluateStatusdoReply, error)
 }
 
 type todoClient struct {
@@ -95,6 +99,26 @@ func (c *todoClient) ListTodo(ctx context.Context, in *ListTodoRequest, opts ...
 	return out, nil
 }
 
+func (c *todoClient) EvaluateTodo(ctx context.Context, in *EvaluateTodoRequest, opts ...grpc.CallOption) (*EvaluateTodoReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(EvaluateTodoReply)
+	err := c.cc.Invoke(ctx, Todo_EvaluateTodo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *todoClient) GetEvaluationStatus(ctx context.Context, in *GetEvaluationStatusRequest, opts ...grpc.CallOption) (*GetEvaluateStatusdoReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetEvaluateStatusdoReply)
+	err := c.cc.Invoke(ctx, Todo_GetEvaluationStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TodoServer is the server API for Todo service.
 // All implementations must embed UnimplementedTodoServer
 // for forward compatibility.
@@ -104,6 +128,8 @@ type TodoServer interface {
 	DeleteTodo(context.Context, *DeleteTodoRequest) (*DeleteTodoReply, error)
 	GetTodo(context.Context, *GetTodoRequest) (*GetTodoReply, error)
 	ListTodo(context.Context, *ListTodoRequest) (*ListTodoReply, error)
+	EvaluateTodo(context.Context, *EvaluateTodoRequest) (*EvaluateTodoReply, error)
+	GetEvaluationStatus(context.Context, *GetEvaluationStatusRequest) (*GetEvaluateStatusdoReply, error)
 	mustEmbedUnimplementedTodoServer()
 }
 
@@ -128,6 +154,12 @@ func (UnimplementedTodoServer) GetTodo(context.Context, *GetTodoRequest) (*GetTo
 }
 func (UnimplementedTodoServer) ListTodo(context.Context, *ListTodoRequest) (*ListTodoReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTodo not implemented")
+}
+func (UnimplementedTodoServer) EvaluateTodo(context.Context, *EvaluateTodoRequest) (*EvaluateTodoReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EvaluateTodo not implemented")
+}
+func (UnimplementedTodoServer) GetEvaluationStatus(context.Context, *GetEvaluationStatusRequest) (*GetEvaluateStatusdoReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEvaluationStatus not implemented")
 }
 func (UnimplementedTodoServer) mustEmbedUnimplementedTodoServer() {}
 func (UnimplementedTodoServer) testEmbeddedByValue()              {}
@@ -240,6 +272,42 @@ func _Todo_ListTodo_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Todo_EvaluateTodo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EvaluateTodoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TodoServer).EvaluateTodo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Todo_EvaluateTodo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TodoServer).EvaluateTodo(ctx, req.(*EvaluateTodoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Todo_GetEvaluationStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetEvaluationStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TodoServer).GetEvaluationStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Todo_GetEvaluationStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TodoServer).GetEvaluationStatus(ctx, req.(*GetEvaluationStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Todo_ServiceDesc is the grpc.ServiceDesc for Todo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +334,14 @@ var Todo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListTodo",
 			Handler:    _Todo_ListTodo_Handler,
+		},
+		{
+			MethodName: "EvaluateTodo",
+			Handler:    _Todo_EvaluateTodo_Handler,
+		},
+		{
+			MethodName: "GetEvaluationStatus",
+			Handler:    _Todo_GetEvaluationStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
