@@ -533,7 +533,7 @@ func (x *EvaluateTodoRequest) GetId() int64 {
 
 type EvaluateTodoReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	EvaluationId  string                 `protobuf:"bytes,1,opt,name=evaluation_id,json=evaluationId,proto3" json:"evaluation_id,omitempty"`
+	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -568,17 +568,16 @@ func (*EvaluateTodoReply) Descriptor() ([]byte, []int) {
 	return file_bubble_v1_todo_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *EvaluateTodoReply) GetEvaluationId() string {
+func (x *EvaluateTodoReply) GetMessage() string {
 	if x != nil {
-		return x.EvaluationId
+		return x.Message
 	}
 	return ""
 }
 
 type GetEvaluateStatusdoReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	Completed     bool                   `protobuf:"varint,2,opt,name=completed,proto3" json:"completed,omitempty"`
+	Status        string                 `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -613,18 +612,11 @@ func (*GetEvaluateStatusdoReply) Descriptor() ([]byte, []int) {
 	return file_bubble_v1_todo_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *GetEvaluateStatusdoReply) GetMessage() string {
+func (x *GetEvaluateStatusdoReply) GetStatus() string {
 	if x != nil {
-		return x.Message
+		return x.Status
 	}
 	return ""
-}
-
-func (x *GetEvaluateStatusdoReply) GetCompleted() bool {
-	if x != nil {
-		return x.Completed
-	}
-	return false
 }
 
 type ListTodoReply struct {
@@ -673,7 +665,7 @@ func (x *ListTodoReply) GetData() []*Todo {
 
 type GetEvaluationStatusRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	EvaluationId  string                 `protobuf:"bytes,1,opt,name=evaluation_id,json=evaluationId,proto3" json:"evaluation_id,omitempty"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -708,11 +700,11 @@ func (*GetEvaluationStatusRequest) Descriptor() ([]byte, []int) {
 	return file_bubble_v1_todo_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *GetEvaluationStatusRequest) GetEvaluationId() string {
+func (x *GetEvaluationStatusRequest) GetId() int64 {
 	if x != nil {
-		return x.EvaluationId
+		return x.Id
 	}
-	return ""
+	return 0
 }
 
 var File_bubble_v1_todo_proto protoreflect.FileDescriptor
@@ -744,16 +736,15 @@ const file_bubble_v1_todo_proto_rawDesc = "" +
 	"\x04todo\x18\x01 \x01(\v2\x13.api.bubble.v1.todoR\x04todo\"\x11\n" +
 	"\x0fListTodoRequest\".\n" +
 	"\x13EvaluateTodoRequest\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\"8\n" +
-	"\x11EvaluateTodoReply\x12#\n" +
-	"\revaluation_id\x18\x01 \x01(\tR\fevaluationId\"R\n" +
-	"\x18GetEvaluateStatusdoReply\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage\x12\x1c\n" +
-	"\tcompleted\x18\x02 \x01(\bR\tcompleted\"8\n" +
+	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\"-\n" +
+	"\x11EvaluateTodoReply\x12\x18\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\"2\n" +
+	"\x18GetEvaluateStatusdoReply\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\tR\x06status\"8\n" +
 	"\rListTodoReply\x12'\n" +
-	"\x04data\x18\x01 \x03(\v2\x13.api.bubble.v1.todoR\x04data\"J\n" +
-	"\x1aGetEvaluationStatusRequest\x12,\n" +
-	"\revaluation_id\x18\x01 \x01(\tB\a\xfaB\x04\"\x02 \x00R\fevaluationId2\x90\x06\n" +
+	"\x04data\x18\x01 \x03(\v2\x13.api.bubble.v1.todoR\x04data\"5\n" +
+	"\x1aGetEvaluationStatusRequest\x12\x17\n" +
+	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id2\x85\x06\n" +
 	"\x04Todo\x12c\n" +
 	"\n" +
 	"CreateTodo\x12 .api.bubble.v1.CreateTodoRequest\x1a\x1e.api.bubble.v1.CreateTodoReply\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/v1/todo\x12h\n" +
@@ -763,8 +754,8 @@ const file_bubble_v1_todo_proto_rawDesc = "" +
 	"DeleteTodo\x12 .api.bubble.v1.DeleteTodoRequest\x1a\x1e.api.bubble.v1.DeleteTodoReply\"\x15\x82\xd3\xe4\x93\x02\x0f*\r/v1/todo/{id}\x12\\\n" +
 	"\aGetTodo\x12\x1d.api.bubble.v1.GetTodoRequest\x1a\x1b.api.bubble.v1.GetTodoReply\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/todo/{id}\x12[\n" +
 	"\bListTodo\x12\x1e.api.bubble.v1.ListTodoRequest\x1a\x1c.api.bubble.v1.ListTodoReply\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/v1/todos\x12w\n" +
-	"\fEvaluateTodo\x12\".api.bubble.v1.EvaluateTodoRequest\x1a .api.bubble.v1.EvaluateTodoReply\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/v1/todo/{id}/evaluate\x12\x9d\x01\n" +
-	"\x13GetEvaluationStatus\x12).api.bubble.v1.GetEvaluationStatusRequest\x1a'.api.bubble.v1.GetEvaluateStatusdoReply\"2\x82\xd3\xe4\x93\x02,\x12*/v1/todo/{evaluation_id}/evaluation-statusB*\n" +
+	"\fEvaluateTodo\x12\".api.bubble.v1.EvaluateTodoRequest\x1a .api.bubble.v1.EvaluateTodoReply\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/v1/todo/{id}/evaluate\x12\x92\x01\n" +
+	"\x13GetEvaluationStatus\x12).api.bubble.v1.GetEvaluationStatusRequest\x1a'.api.bubble.v1.GetEvaluateStatusdoReply\"'\x82\xd3\xe4\x93\x02!\x12\x1f/v1/todo/{id}/evaluation-statusB*\n" +
 	"\rapi.bubble.v1P\x01Z\x17bubble/api/bubble/v1;v1b\x06proto3"
 
 var (

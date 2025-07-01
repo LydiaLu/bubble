@@ -3,6 +3,8 @@ package service
 import (
 	"context"
 	"errors"
+	"fmt"
+	"sync"
 	"time"
 
 	pb "bubble/api/bubble/v1"
@@ -10,7 +12,6 @@ import (
 	"bubble/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/google/uuid"
 )
 
 type TodoService struct {
@@ -19,11 +20,11 @@ type TodoService struct {
 	uc  *biz.TodoUsecase
 	log *log.Helper
 	// 存储评估结果的map
-	evaluationResults map[uuid.UUID]bool
+	evaluationResults sync.Map
 }
 
 func NewTodoService(uc *biz.TodoUsecase) *TodoService {
-	return &TodoService{uc: uc, evaluationResults: make(map[uuid.UUID]bool)}
+	return &TodoService{uc: uc, evaluationResults: sync.Map{}}
 }
 
 func (s *TodoService) CreateTodo(ctx context.Context, req *pb.CreateTodoRequest) (*pb.CreateTodoReply, error) {
@@ -102,45 +103,51 @@ func (s *TodoService) ListTodo(ctx context.Context, req *pb.ListTodoRequest) (*p
 	return reply, nil
 }
 
-// EvaluateTodo 实现评估待办事项的接口
 func (s *TodoService) EvaluateTodo(ctx context.Context, req *pb.EvaluateTodoRequest) (*pb.EvaluateTodoReply, error) {
-	evaluation_id := uuid.New()
-	go s.performEvaluation(evaluation_id)
+	if req.Id <= 0 {
+		return nil, errors.New("无效的待办事项ID")
+	}
 
+	todoID := req.Id
+	todoIDStr := fmt.Sprintf("%d", todoID)
+
+	// 检查任务状态
+	if status, exists := s.evaluationResults.Load(todoIDStr); exists {
+		if status == "进行中" {
+			return &pb.EvaluateTodoReply{
+				Message: "评估任务已在执行中",
+			}, nil
+		} else if status == "已完成" {
+			return &pb.EvaluateTodoReply{
+				Message: "评估任务已完成",
+			}, nil
+		}
+	}
+
+	// 更新状态为"进行中"
+	s.evaluationResults.Store(todoIDStr, "进行中")
+
+	// 模拟耗时操作（同步执行）
+	time.Sleep(20 * time.Second)
+
+	// 更新评估状态为"已完成"
+	s.evaluationResults.Store(todoIDStr, "已完成")
 	return &pb.EvaluateTodoReply{
-		EvaluationId: evaluation_id.String(),
+		Message: "评估成功完成",
 	}, nil
 }
 
-// 执行耗时的评估操作
-func (s *TodoService) performEvaluation(id uuid.UUID) {
-	// 模拟耗时操作
-	time.Sleep(20 * time.Second)
-
-	s.evaluationResults[id] = true
-}
-
 func (s *TodoService) GetEvaluationStatus(ctx context.Context, req *pb.GetEvaluationStatusRequest) (*pb.GetEvaluateStatusdoReply, error) {
+	todoIDStr := fmt.Sprintf("%d", req.Id)
 
-	evaluation_id, _ := uuid.Parse(req.EvaluationId)
-	completed, exists := s.evaluationResults[evaluation_id]
-
-	if !exists {
+	// 获取评估状态
+	if status, exists := s.evaluationResults.Load(todoIDStr); exists {
 		return &pb.GetEvaluateStatusdoReply{
-			Message:   "未找到评估任务",
-			Completed: false,
-		}, nil
-	}
-
-	if completed {
-		return &pb.GetEvaluateStatusdoReply{
-			Message:   "评估完成",
-			Completed: true,
+			Status: status.(string),
 		}, nil
 	}
 
 	return &pb.GetEvaluateStatusdoReply{
-		Message:   "正在评估中",
-		Completed: false,
+		Status: "未开始",
 	}, nil
 }

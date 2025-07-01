@@ -45,7 +45,7 @@ func RegisterTodoHTTPServer(s *http.Server, srv TodoHTTPServer) {
 	r.GET("/v1/todo/{id}", _Todo_GetTodo0_HTTP_Handler(srv))
 	r.GET("/v1/todos", _Todo_ListTodo0_HTTP_Handler(srv))
 	r.POST("/v1/todo/{id}/evaluate", _Todo_EvaluateTodo0_HTTP_Handler(srv))
-	r.GET("/v1/todo/{evaluation_id}/evaluation-status", _Todo_GetEvaluationStatus0_HTTP_Handler(srv))
+	r.GET("/v1/todo/{id}/evaluation-status", _Todo_GetEvaluationStatus0_HTTP_Handler(srv))
 }
 
 func _Todo_CreateTodo0_HTTP_Handler(srv TodoHTTPServer) func(ctx http.Context) error {
@@ -264,7 +264,7 @@ func (c *TodoHTTPClientImpl) EvaluateTodo(ctx context.Context, in *EvaluateTodoR
 
 func (c *TodoHTTPClientImpl) GetEvaluationStatus(ctx context.Context, in *GetEvaluationStatusRequest, opts ...http.CallOption) (*GetEvaluateStatusdoReply, error) {
 	var out GetEvaluateStatusdoReply
-	pattern := "/v1/todo/{evaluation_id}/evaluation-status"
+	pattern := "/v1/todo/{id}/evaluation-status"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationTodoGetEvaluationStatus))
 	opts = append(opts, http.PathTemplate(pattern))

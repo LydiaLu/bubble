@@ -55,24 +55,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.bubble.v1.CreateTodoReply'
-    /v1/todo/{evaluationId}/evaluation-status:
-        get:
-            tags:
-                - Todo
-            operationId: Todo_GetEvaluationStatus
-            parameters:
-                - name: evaluationId
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.bubble.v1.GetEvaluateStatusdoReply'
     /v1/todo/{id}:
         get:
             tags:
@@ -155,6 +137,24 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.bubble.v1.EvaluateTodoReply'
+    /v1/todo/{id}/evaluation-status:
+        get:
+            tags:
+                - Todo
+            operationId: Todo_GetEvaluationStatus
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.bubble.v1.GetEvaluateStatusdoReply'
     /v1/todos:
         get:
             tags:
@@ -189,7 +189,7 @@ components:
         api.bubble.v1.EvaluateTodoReply:
             type: object
             properties:
-                evaluationId:
+                message:
                     type: string
         api.bubble.v1.EvaluateTodoRequest:
             type: object
@@ -199,10 +199,8 @@ components:
         api.bubble.v1.GetEvaluateStatusdoReply:
             type: object
             properties:
-                message:
+                status:
                     type: string
-                completed:
-                    type: boolean
         api.bubble.v1.GetTodoReply:
             type: object
             properties:

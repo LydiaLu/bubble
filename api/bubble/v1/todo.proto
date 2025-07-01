@@ -45,7 +45,7 @@ service Todo {
 	 };
 	rpc GetEvaluationStatus (GetEvaluationStatusRequest) returns (GetEvaluateStatusdoReply) {
 		option (google.api.http) = {
-			get: "/v1/todo/{evaluation_id}/evaluation-status"
+			get: "/v1/todo/{id}/evaluation-status"
 		};
 	};
 }
@@ -91,17 +91,16 @@ message EvaluateTodoRequest {
 }
 
 message EvaluateTodoReply {
-	 string evaluation_id = 1;
+	 string message = 1;
 }
 
 message GetEvaluateStatusdoReply {
-	 string message = 1;
-	 bool completed = 2;
+	 string status = 1;
 }
 message ListTodoReply {
 	 repeated todo data = 1;
 }
 
 message GetEvaluationStatusRequest {
-    string evaluation_id = 1 [(validate.rules).int64 = {gt: 0}];
+    int64 id = 1 [(validate.rules).int64 = {gt: 0}];
 }
